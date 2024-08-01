@@ -1,6 +1,5 @@
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -54,7 +53,7 @@ const Add = () => {
     },
   });
 
-  const { isLoading: isMembersLoading, data: membersData } = useFetch<{
+  const {data: membersData } = useFetch<{
     status: number;
     members: MembersType[];
   }>("/members/getAll");
