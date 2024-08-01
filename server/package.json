@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config ./dist/index.js",
+    "dev": "nodemon -r dotenv/config ./dist/index.js",
+    "db:generate": "pnpm drizzle-kit generate",
+    "db:migrate": "pnpx tsx ./src/drizzle/migrate",
+    "db:generate:empty": "drizzle-kit generate --custom",
+    "wch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.12",
+    "drizzle-orm": "^0.32.0",
+    "express": "^4.19.2",
+    "lodash": "^4.17.21",
+    "pg": "^8.12.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/lodash": "^4.17.7",
+    "@types/pg": "^8.11.6",
+    "drizzle-kit": "^0.23.0",
+    "nodemon": "^3.1.4",
+    "typescript": "5.3.3"
+  }
+}
