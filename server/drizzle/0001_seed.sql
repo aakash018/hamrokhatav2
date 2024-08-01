@@ -1,9 +1,9 @@
 
 INSERT INTO members (id, name, profile_url) VALUES
-(1, 'Rohan', "https://s3.tebi.io/hamrokhata/7818885229119875546_n.jpg"),
-(2, 'Subash', "https://s3.tebi.io/hamrokhata/260146686_420226183037120_111588171150060438_n.jpg"),
-(3, 'Aakash', "https://s3.tebi.io/hamrokhata/299711855_5932737596760051_2875542097038879218_n.jpg"),
-(4, 'Bikash', "https://s3.tebi.io/hamrokhata/00100sPORTRAIT_00100_BURST20220624121738576_COVER.jpg");
+(1, 'Rohan', 'https://s3.tebi.io/hamrokhata/7818885229119875546_n.jpg'),
+(2, 'Subash', 'https://s3.tebi.io/hamrokhata/260146686_420226183037120_111588171150060438_n.jpg'),
+(3, 'Aakash', 'https://s3.tebi.io/hamrokhata/299711855_5932737596760051_2875542097038879218_n.jpg'),
+(4, 'Bikash', 'https://s3.tebi.io/hamrokhata/00100sPORTRAIT_00100_BURST20220624121738576_COVER.jpg');
 
 
 INSERT INTO debts ("from", "to", amount) VALUES
