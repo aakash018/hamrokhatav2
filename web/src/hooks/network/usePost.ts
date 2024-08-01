@@ -20,7 +20,6 @@ export const usePost = <
   >(
     (data: TVariables) =>
       apiClient.post<TData>(url, data).then((res) => {
-        console.log(res);
         return res.data;
       }),
     {

@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import MobileNavBar from "./MobileNavBar";
-import { Button } from "./ui/button";
 import { useTheme } from "./theme-provider";
 import { Switch } from "./ui/switch";
 import SideBar from "./SideBar";
