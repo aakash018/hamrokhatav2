@@ -56,28 +56,28 @@ const DebtsHolder = ({ data, profileImg }: Props) => {
           <div className="grid grid-cols-[140px_80px_80px]   place-content-center">
             <div className="w-[60px]">{data.main.debt.first.name}</div>
             <div className="text-primary text-right">
-              {data.main.debt.first.amount}
+              {data.main.debt.first.amount.toFixed(1)}
             </div>
             <div className="text-green-500 text-right">
-              {data.main.get.first.amount}
+              {data.main.get.first.amount.toFixed(1)}
             </div>
           </div>
           <div className=" grid grid-cols-[140px_80px_80px]   place-content-center">
             <div className="w-[60px]">{data.main.debt.second.name}</div>
             <div className="text-primary text-right">
-              {data.main.debt.second.amount}
+              {data.main.debt.second.amount.toFixed(1)}
             </div>
             <div className="text-green-500 text-right">
-              {data.main.get.second.amount}
+              {data.main.get.second.amount.toFixed(1)}
             </div>
           </div>
           <div className="grid grid-cols-[140px_80px_80px]   place-content-center">
             <div className="w-[60px]">{data.main.debt.third.name}</div>
             <div className="text-primary text-right">
-              {data.main.debt.third.amount}
+              {data.main.debt.third.amount.toFixed(1)}
             </div>
             <div className="text-green-500 text-right">
-              {data.main.get.third.amount}
+              {data.main.get.third.amount.toFixed(1)}
             </div>
           </div>
         </div>

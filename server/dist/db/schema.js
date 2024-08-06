@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.debts = exports.expenditure = exports.members = void 0;
+exports.personalPayments = exports.debts = exports.expenditure = exports.members = void 0;
 const pg_core_1 = require("drizzle-orm/pg-core");
 exports.members = (0, pg_core_1.pgTable)("members", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
@@ -15,6 +15,16 @@ exports.expenditure = (0, pg_core_1.pgTable)("expenditure", {
     createdAt: (0, pg_core_1.timestamp)("created_at").defaultNow(),
 });
 exports.debts = (0, pg_core_1.pgTable)("debts", {
+    id: (0, pg_core_1.serial)("id").primaryKey(),
+    from: (0, pg_core_1.integer)("from")
+        .references(() => exports.members.id)
+        .notNull(),
+    to: (0, pg_core_1.integer)("to")
+        .references(() => exports.members.id)
+        .notNull(),
+    amount: (0, pg_core_1.doublePrecision)("amount").notNull().default(0),
+});
+exports.personalPayments = (0, pg_core_1.pgTable)("personalPayments", {
     id: (0, pg_core_1.serial)("id").primaryKey(),
     from: (0, pg_core_1.integer)("from")
         .references(() => exports.members.id)

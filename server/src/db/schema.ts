@@ -31,3 +31,14 @@ export const debts = pgTable("debts", {
     .notNull(), // Foreign key referencing members table
   amount: doublePrecision("amount").notNull().default(0),
 });
+
+export const personalPayments = pgTable("personalPayments", {
+  id: serial("id").primaryKey(),
+  from: integer("from")
+    .references(() => members.id)
+    .notNull(),
+  to: integer("to")
+    .references(() => members.id)
+    .notNull(),
+  amount: doublePrecision("amount").notNull().default(0),
+});

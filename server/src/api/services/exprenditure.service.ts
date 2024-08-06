@@ -1,4 +1,7 @@
-import { CreateExprenditureSchema } from "../validation-schema/create-exprenditure";
+import {
+  CreateCustomExprenditureSchema,
+  CreateExprenditureSchema,
+} from "../validation-schema/create-exprenditure";
 import { debts, expenditure } from "../../db/schema";
 import { db } from "../../db/db";
 import { and, eq, sql } from "drizzle-orm";
@@ -97,7 +100,69 @@ export const getExprenditureData = async (toDate: number) => {
   return expData.rows;
 };
 
+const createCustomeExpenditure = async (
+  data: CreateCustomExprenditureSchema
+) => {
+  await db.transaction(async (tx) => {
+    await tx.insert(expenditure).values(data);
+
+    const prevDebts = await tx
+      .select()
+      .from(debts)
+      .where(eq(debts.from, data.paidBy));
+
+    data.amount = data.amount / (4 - data.frozenAccounts.length);
+
+    prevDebts.forEach(async (debt) => {
+      if (data.frozenAccounts.includes(debt.to)) return null;
+
+      if (debt.amount === 0) {
+        const reverseData = await db
+          .select({ amount: debts.amount })
+          .from(debts)
+          .where(and(eq(debts.from, debt.to), eq(debts.to, debt.from)));
+
+        const lastAmount = reverseData[0].amount;
+
+        await tx
+          .update(debts)
+          .set({
+            amount: data.amount + lastAmount,
+          })
+          .where(and(eq(debts.from, debt.to), eq(debts.to, debt.from)));
+      } else {
+        const sub = debt.amount - data.amount;
+
+        if (sub >= 0) {
+          await tx
+            .update(debts)
+            .set({
+              amount: sub,
+            })
+            .where(and(eq(debts.from, debt.from), eq(debts.to, debt.to)));
+        } else {
+          await tx
+            .update(debts)
+            .set({
+              amount: Math.abs(sub),
+            })
+            .where(and(eq(debts.from, debt.to), eq(debts.to, debt.from)));
+
+          await tx
+            .update(debts)
+            .set({
+              amount: 0,
+            })
+            .where(and(eq(debts.from, debt.from), eq(debts.to, debt.to)));
+        }
+      }
+      return null;
+    });
+  });
+};
+
 export const expenditureServices = {
   createExprenditure,
   getExprenditureData,
+  createCustomeExpenditure,
 };

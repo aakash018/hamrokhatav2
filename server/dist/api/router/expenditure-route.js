@@ -10,4 +10,5 @@ const router = express_1.default.Router();
 exports.expenditureRouter = router;
 router.post("/create", exprenditure_controller_1.expenditureController.createExprenditure);
 router.get("/getAll", exprenditure_controller_1.expenditureController.getAllExprenditure);
+router.post("/createCustom", exprenditure_controller_1.expenditureController.createCustomeExprenditure);
 //# sourceMappingURL=expenditure-route.js.map

@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://hamrokhatav2.onrender.com",
+        target: "http://localhost:3000",
         secure: false,
         changeOrigin: true,
       },

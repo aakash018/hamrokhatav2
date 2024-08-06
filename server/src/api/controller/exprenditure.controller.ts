@@ -1,11 +1,25 @@
 import { createEndpoint } from "../../utilities/createEndpoint";
-import { createExprenditureSchema } from "../validation-schema/create-exprenditure";
+import {
+  createCustomExpenditureSchema,
+  createExprenditureSchema,
+} from "../validation-schema/create-exprenditure";
 import { expenditureServices } from "../services/exprenditure.service";
 
 const createExprenditure = createEndpoint({
   body: createExprenditureSchema,
 })(async (req, res) => {
   await expenditureServices.createExprenditure(req.body);
+
+  res.json({
+    status: 200,
+    message: "created",
+  });
+});
+
+const createCustomeExprenditure = createEndpoint({
+  body: createCustomExpenditureSchema,
+})(async (req, res) => {
+  await expenditureServices.createCustomeExpenditure(req.body);
 
   res.json({
     status: 200,
@@ -28,4 +42,5 @@ const getAllExprenditure = createEndpoint()(async (req, res) => {
 export const expenditureController = {
   createExprenditure,
   getAllExprenditure,
+  createCustomeExprenditure,
 };

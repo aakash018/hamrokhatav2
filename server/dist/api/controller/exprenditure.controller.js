@@ -13,6 +13,15 @@ const createExprenditure = (0, createEndpoint_1.createEndpoint)({
         message: "created",
     });
 });
+const createCustomeExprenditure = (0, createEndpoint_1.createEndpoint)({
+    body: create_exprenditure_1.createCustomExpenditureSchema,
+})(async (req, res) => {
+    await exprenditure_service_1.expenditureServices.createCustomeExpenditure(req.body);
+    res.json({
+        status: 200,
+        message: "created",
+    });
+});
 const getAllExprenditure = (0, createEndpoint_1.createEndpoint)()(async (req, res) => {
     const { timeFrame } = req.query;
     console.log(timeFrame);
@@ -26,5 +35,6 @@ const getAllExprenditure = (0, createEndpoint_1.createEndpoint)()(async (req, re
 exports.expenditureController = {
     createExprenditure,
     getAllExprenditure,
+    createCustomeExprenditure,
 };
 //# sourceMappingURL=exprenditure.controller.js.map

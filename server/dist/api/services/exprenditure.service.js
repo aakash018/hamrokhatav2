@@ -92,8 +92,62 @@ const getExprenditureData = async (toDate) => {
     return expData.rows;
 };
 exports.getExprenditureData = getExprenditureData;
+const createCustomeExpenditure = async (data) => {
+    await db_1.db.transaction(async (tx) => {
+        await tx.insert(schema_1.expenditure).values(data);
+        const prevDebts = await tx
+            .select()
+            .from(schema_1.debts)
+            .where((0, drizzle_orm_1.eq)(schema_1.debts.from, data.paidBy));
+        data.amount = data.amount / (4 - data.frozenAccounts.length);
+        prevDebts.forEach(async (debt) => {
+            if (data.frozenAccounts.includes(debt.to))
+                return null;
+            if (debt.amount === 0) {
+                const reverseData = await db_1.db
+                    .select({ amount: schema_1.debts.amount })
+                    .from(schema_1.debts)
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.debts.from, debt.to), (0, drizzle_orm_1.eq)(schema_1.debts.to, debt.from)));
+                const lastAmount = reverseData[0].amount;
+                await tx
+                    .update(schema_1.debts)
+                    .set({
+                    amount: data.amount + lastAmount,
+                })
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.debts.from, debt.to), (0, drizzle_orm_1.eq)(schema_1.debts.to, debt.from)));
+            }
+            else {
+                const sub = debt.amount - data.amount;
+                if (sub >= 0) {
+                    await tx
+                        .update(schema_1.debts)
+                        .set({
+                        amount: sub,
+                    })
+                        .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.debts.from, debt.from), (0, drizzle_orm_1.eq)(schema_1.debts.to, debt.to)));
+                }
+                else {
+                    await tx
+                        .update(schema_1.debts)
+                        .set({
+                        amount: Math.abs(sub),
+                    })
+                        .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.debts.from, debt.to), (0, drizzle_orm_1.eq)(schema_1.debts.to, debt.from)));
+                    await tx
+                        .update(schema_1.debts)
+                        .set({
+                        amount: 0,
+                    })
+                        .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.debts.from, debt.from), (0, drizzle_orm_1.eq)(schema_1.debts.to, debt.to)));
+                }
+            }
+            return null;
+        });
+    });
+};
 exports.expenditureServices = {
     createExprenditure: exports.createExprenditure,
     getExprenditureData: exports.getExprenditureData,
+    createCustomeExpenditure,
 };
 //# sourceMappingURL=exprenditure.service.js.map
